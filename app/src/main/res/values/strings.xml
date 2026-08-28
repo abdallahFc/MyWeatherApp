@@ -1,3 +1,46 @@
 <resources>
     <string name="app_name">My Weather</string>
+    <string name="app_tagline">Check the weather anywhere</string>
+
+    <!-- Search -->
+    <string name="search_city_hint">Search city</string>
+    <string name="search_city_action">Search</string>
+    <string name="search_city_clear">Clear city name</string>
+    <string name="search_city_blank_error">Enter a city name to search.</string>
+
+    <!-- Content states -->
+    <string name="weather_empty_title">Search for a city</string>
+    <string name="weather_empty_message">Enter a city name to see the current weather.</string>
+    <string name="weather_loading_message">Getting the latest weather…</string>
+    <string name="weather_refreshing_message">Updating %1$s…</string>
+
+    <!-- Errors -->
+    <string name="error_offline_title">You’re offline</string>
+    <string name="error_offline_message">Check your internet connection and try again.</string>
+    <string name="error_city_not_found_title">City not found</string>
+    <string name="error_city_not_found_message">We couldn’t find that city. Check the spelling and try again.</string>
+    <string name="error_server_title">Couldn’t load the weather</string>
+    <string name="error_server_message">Something went wrong while getting the weather. Please try again.</string>
+    <string name="error_unknown_title">Couldn’t load the weather</string>
+    <string name="error_unknown_message">Something unexpected happened. Please try again.</string>
+    <string name="action_try_again">Try again</string>
+    <string name="action_edit_search">Edit search</string>
+
+    <!-- Weather -->
+    <string name="degree_symbol">°</string>
+    <string name="temperature_content_description">%1$s degrees Celsius</string>
+    <string name="weather_condition_clear">Clear</string>
+    <string name="weather_condition_cloudy">Cloudy</string>
+    <string name="weather_condition_rain">Rain</string>
+    <string name="weather_condition_snow">Snow</string>
+    <string name="weather_condition_thunderstorm">Thunderstorm</string>
+    <string name="weather_condition_unknown">Unknown</string>
+    <string name="detail_feels_like">Feels like</string>
+    <string name="detail_humidity">Humidity</string>
+    <string name="detail_wind">Wind</string>
+
+    <!-- Theme toggle: each string describes what the next tap does. -->
+    <string name="theme_switch_to_light">Theme follows the system. Switch to light theme.</string>
+    <string name="theme_switch_to_dark">Light theme. Switch to dark theme.</string>
+    <string name="theme_switch_to_system">Dark theme. Follow the system theme.</string>
 </resources>

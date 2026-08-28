@@ -19,3 +19,5 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+# Gson maps JSON onto the DTOs by reflection, so their field names must survive R8.
+-keep class com.example.myweather.data.remote.dto.** { *; }

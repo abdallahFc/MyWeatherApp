@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">طقسي</string>
+    <string name="app_tagline">تحقق من الطقس في أي مكان</string>
+
+    <!-- البحث -->
+    <string name="search_city_hint">ابحث عن مدينة</string>
+    <string name="search_city_action">بحث</string>
+    <string name="search_city_clear">مسح اسم المدينة</string>
+    <string name="search_city_blank_error">أدخل اسم مدينة للبحث.</string>
+
+    <!-- حالات المحتوى -->
+    <string name="weather_empty_title">ابحث عن مدينة</string>
+    <string name="weather_empty_message">أدخل اسم مدينة لعرض حالة الطقس الحالية.</string>
+    <string name="weather_loading_message">جارٍ تحميل أحدث حالة للطقس…</string>
+    <string name="weather_refreshing_message">جارٍ تحديث طقس %1$s…</string>
+
+    <!-- الأخطاء -->
+    <string name="error_offline_title">لا يوجد اتصال بالإنترنت</string>
+    <string name="error_offline_message">تحقق من اتصالك بالإنترنت وحاول مرة أخرى.</string>
+    <string name="error_city_not_found_title">لم يتم العثور على المدينة</string>
+    <string name="error_city_not_found_message">تعذر العثور على هذه المدينة. تحقق من الاسم وحاول مرة أخرى.</string>
+    <string name="error_server_title">تعذر تحميل حالة الطقس</string>
+    <string name="error_server_message">حدث خطأ أثناء تحميل حالة الطقس. حاول مرة أخرى.</string>
+    <string name="error_unknown_title">تعذر تحميل حالة الطقس</string>
+    <string name="error_unknown_message">حدث خطأ غير متوقع. حاول مرة أخرى.</string>
+    <string name="action_try_again">حاول مرة أخرى</string>
+    <string name="action_edit_search">تعديل البحث</string>
+
+    <!-- الطقس -->
+    <string name="degree_symbol">°</string>
+    <string name="temperature_content_description">%1$s درجة مئوية</string>
+    <string name="weather_condition_clear">صحو</string>
+    <string name="weather_condition_cloudy">غائم</string>
+    <string name="weather_condition_rain">ممطر</string>
+    <string name="weather_condition_snow">ثلوج</string>
+    <string name="weather_condition_thunderstorm">عاصفة رعدية</string>
+    <string name="weather_condition_unknown">غير معروفة</string>
+    <string name="detail_feels_like">المحسوسة</string>
+    <string name="detail_humidity">الرطوبة</string>
+    <string name="detail_wind">الرياح</string>
+
+    <!-- يصف كل نص الإجراء الذي ستنفذه الضغطة التالية. -->
+    <string name="theme_switch_to_light">المظهر يتبع النظام. التبديل إلى المظهر الفاتح.</string>
+    <string name="theme_switch_to_dark">المظهر الفاتح. التبديل إلى المظهر الداكن.</string>
+    <string name="theme_switch_to_system">المظهر الداكن. استخدام مظهر النظام.</string>
+</resources>
