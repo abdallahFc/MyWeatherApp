@@ -1,45 +1,118 @@
 # My Weather
 
-A single-screen Android app: type a city, see the current temperature in °C, the condition
-and a matching icon, in light or dark theme.
+A focused, single-screen Android application for checking the current weather in any city.
+It fetches live data from [wttr.in](https://wttr.in), presents explicit loading and error
+states, and restores the last successfully searched city when the app is opened again.
 
-## Decisions
+## Features
 
-It's Jetpack Compose with Material 3, MVVM and a unidirectional flow — `WeatherViewModel`
-owns one `WeatherUiState`, the UI renders it, and every user action travels back through
-the single `WeatherInteractionListener` contract the ViewModel implements. The code splits
-into `data` / `domain` / `presentation`, where the domain holds only plain models and the
-repository contract, so neither Retrofit DTOs nor Compose types can cross that boundary.
-Weather comes from [wttr.in](https://wttr.in) (`format=j1`, no API key) and the last
-**successfully** loaded city is stored in Preferences DataStore, so reopening the app
-reloads it automatically. I deliberately skipped a DI framework and use-case classes — with
-one screen and one data source they add indirection without removing any — but kept
-dependency inversion, wiring the graph by hand in a single composition root
-(`AppContainer`). I chose Retrofit with Gson over kotlinx.serialization because wttr.in
-serves its JSON as `text/plain` and Gson converts by return type without needing a
-compiler plugin.
+- Search for current weather by city name.
+- View the resolved city, temperature in Celsius, weather condition, and a matching visual.
+- See optional details including feels-like temperature, humidity, and wind speed.
+- Restore the last successfully loaded city with Preferences DataStore.
+- Handle blank input, no connection, unknown cities, server failures, and malformed responses.
+- Cancel an older request when a newer city is submitted.
+- Follow the system theme or switch between light and dark modes.
+- English and Arabic resources, including automatic RTL layout when the device uses Arabic.
+- Accessible labels for interactive controls and temperature output.
 
-## One wttr.in gotcha worth knowing
+## Architecture
 
-An unknown city is **not** a 404. wttr.in answers with **HTTP 500** and a plain-text body
-beginning `location not found`, so that body — not the status code — is what maps to the
-"City not found" state. Its geocoder will also resolve near-nonsense input to a real place,
-so a bad spelling can legitimately return weather for somewhere unexpected.
+The project uses MVVM, unidirectional data flow, and a lightweight Clean Architecture
+separation:
 
-## How to run
+```text
+UI event -> WeatherViewModel -> WeatherRepository contract
+                                      ^
+                                      |
+                          WeatherRepositoryImpl
+                           /                  \
+                wttr.in remote source    Preferences DataStore
 
-No API key and no configuration needed.
+API DTO -> Data mapper -> Domain model -> UI mapper -> WeatherUiState -> Compose UI
+```
+
+```text
+com.example.myweather
+├── domain          Plain models, typed failures, and repository contract
+├── data            Remote/local sources, DTOs, mapping, and repository implementation
+├── presentation    ViewModel, UI state/models, interaction contract, and Compose UI
+├── di              Manual dependency graph and composition root
+├── MainActivity.kt
+└── MyWeatherApplication.kt
+```
+
+The `domain` package has no dependency on Android, Retrofit, DataStore, or Compose. Both the
+data and presentation layers depend inward on its models and repository contract.
+
+## Key decisions
+
+`WeatherViewModel` owns a single read-only `WeatherUiState`, while the Compose UI renders that
+state and sends user actions through `WeatherInteractionListener`. Transport DTOs and UI models
+are kept separate from `Weather` so API details and Android resources do not cross the domain
+boundary. Only a successful search updates the city stored in DataStore, preventing invalid input
+from replacing the last usable city. Dependencies are wired manually in `AppContainer` because
+the app has one screen and one repository, while constructor injection keeps the graph testable.
+Use-case classes and a DI framework were intentionally omitted at this scope; they can be added
+when reusable business workflows or additional features justify the extra indirection.
+
+## Technology
+
+- Kotlin and coroutines
+- Jetpack Compose with Material 3
+- Android ViewModel and StateFlow
+- Retrofit, OkHttp, and Gson
+- Preferences DataStore
+- JUnit and kotlinx-coroutines-test
+
+## Weather API
+
+The app calls:
+
+```text
+https://wttr.in/{city}?format=j1
+```
+
+No API key or local configuration is required. One provider-specific behavior is handled in the
+remote data source: an unknown city is returned as HTTP 500 with a plain-text body containing
+`location not found`, so the body is used to distinguish `CityNotFound` from a general server
+failure.
+
+## Run locally
+
+Prerequisites:
+
+- JDK 17 or newer
+- Android SDK with API 37 installed
+- Android Studio or the Gradle wrapper
+
+Build the debug APK:
 
 ```bash
 ./gradlew assembleDebug
 ```
 
-Needs JDK 17+ and an Android SDK with API 37 (`androidx.core` 1.19 and `lifecycle` 2.11
-both require compiling against it; `minSdk` stays at 24).
+The generated APK is available at:
 
-Unit tests cover the ViewModel's loading/success transition, the rapid-search race, blank
-input, cold-start restore, and the mapping of network failures onto user-facing errors:
+```text
+app/build/outputs/apk/debug/app-debug.apk
+```
+
+## Verification
+
+Run unit tests, Android Lint, and a debug build:
 
 ```bash
-./gradlew testDebugUnitTest
+./gradlew testDebugUnitTest lintDebug assembleDebug
 ```
+
+The unit tests cover ViewModel state transitions, blank input, cold-start restoration,
+rapid-search cancellation, DTO-to-domain mapping, persistence behavior, and user-facing network
+failure classification.
+
+## Localization
+
+Android selects the appropriate resources from the device locale. English is the default, while
+Arabic strings live in `values-ar` and use the application's existing RTL support. City names are
+displayed as resolved by the weather provider; normalized weather categories and application UI
+messages are localized by the app.
