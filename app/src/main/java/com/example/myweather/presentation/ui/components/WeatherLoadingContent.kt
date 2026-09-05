@@ -46,5 +46,5 @@ private fun WeatherLoadingContentPreview() {
 @Preview
 @Composable
 private fun WeatherLoadingContentRefreshingPreview() {
-    PreviewSurface { WeatherLoadingContent(refreshingCityName = "Reykjavík") }
+    PreviewSurface { WeatherLoadingContent(refreshingCityName = "cairo") }
 }

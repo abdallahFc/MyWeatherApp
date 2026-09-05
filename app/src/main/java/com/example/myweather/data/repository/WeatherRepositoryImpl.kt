@@ -25,10 +25,9 @@ class WeatherRepositoryImpl(
         }
     } catch (exception: WeatherRequestException) {
         WeatherResult.Failure(exception.failure)
-    } catch (exception: CancellationException) {
-
-        throw exception
-    } catch (exception: Exception) {
+    } catch (_: CancellationException) {
+        WeatherResult.Failure(WeatherFailure.Unknown)
+    } catch (_: Exception) {
         WeatherResult.Failure(WeatherFailure.Unknown)
     }
 
